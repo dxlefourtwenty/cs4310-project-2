@@ -1,0 +1,24 @@
+frames = empty list
+last_used = map
+time = 0
+page_faults = 0
+
+For each page in reference_string:
+
+  time = time + 1
+
+  If page is already in frames:
+    last_used[page] = time
+
+  Else:
+    page_faults = page_faults + 1
+
+    If frames not full:
+      add page to frames
+
+    Else:
+      victim = page in frames with smallest last_used value
+      remove victim from frames
+      add new page to frames
+
+    last_used[page] = time

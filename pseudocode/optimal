@@ -1,0 +1,27 @@
+frames = empty list
+page_faults = 0
+
+for each index in reference_string:
+  
+  current_page = reference_string[i]
+
+  if current_page already in frames:
+    continue
+
+  else:
+    page_faults = page_faults + 1
+
+    if frames not full:
+      add current_page to frames
+
+    else:
+
+      for each page in frames:
+        
+        find next use of page after position 1
+
+        if page is never used again:
+          choose page whose next use is farthest in future
+
+        remove victim from frames
+        add current_page to frames
