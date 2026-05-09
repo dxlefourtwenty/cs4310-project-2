@@ -1,17 +1,25 @@
-frames = empty queue
-page_faults = 0
+FIFO(reference_string, frame_max)
 
-For each page in reference_string:
-  
-  if page already in frames:
-    continue
+    frames = array of size frame_max initialized to EMPTY
+    pointer = 0
+    page_faults = 0
 
-  else:
-    page_faults = page_faults + 1
+    For each page in reference_string
 
-    if frames are not full:
-      add page to back of queue
+        found = false
 
-    else:
-      remove page from front of queue
-      add new page to back of queue
+        For i = 0 to frame_max - 1
+
+            If frames[i] == page
+                found = true
+                break
+
+        If found == false
+
+            page_faults = page_faults + 1
+
+            frames[pointer] = page
+
+            pointer = (pointer + 1) mod frame_max
+
+    Return page_faults

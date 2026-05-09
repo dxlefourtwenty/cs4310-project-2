@@ -1,24 +1,52 @@
-frames = empty list
-last_used = map
-time = 0
-page_faults = 0
+LRU(reference_string, frame_max)
 
-For each page in reference_string:
+    frames = array of size frame_max initialized to EMPTY
+    last_used = array of size frame_max initialized to -1
 
-  time = time + 1
+    time = 0
+    page_faults = 0
 
-  If page is already in frames:
-    last_used[page] = time
+    For each page in reference_string
 
-  Else:
-    page_faults = page_faults + 1
+        time = time + 1
 
-    If frames not full:
-      add page to frames
+        found = false
 
-    Else:
-      victim = page in frames with smallest last_used value
-      remove victim from frames
-      add new page to frames
+        For i = 0 to frame_max - 1
 
-    last_used[page] = time
+            If frames[i] == page
+
+                found = true
+                last_used[i] = time
+                break
+
+        If found == false
+
+            page_faults = page_faults + 1
+
+            empty_index = -1
+
+            For i = 0 to frame_max - 1
+
+                If frames[i] == EMPTY
+                    empty_index = i
+                    break
+
+            If empty_index != -1
+
+                frames[empty_index] = page
+                last_used[empty_index] = time
+
+            Else
+
+                victim_index = 0
+
+                For i = 1 to frame_max - 1
+
+                    If last_used[i] < last_used[victim_index]
+                        victim_index = i
+
+                frames[victim_index] = page
+                last_used[victim_index] = time
+
+    Return page_faults

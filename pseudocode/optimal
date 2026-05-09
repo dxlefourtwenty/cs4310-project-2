@@ -1,27 +1,63 @@
-frames = empty list
-page_faults = 0
+OPTIMAL(reference_string, frame_max)
 
-for each index in reference_string:
-  
-  current_page = reference_string[i]
+    frames = array of size frame_max initialized to EMPTY
 
-  if current_page already in frames:
-    continue
+    page_faults = 0
 
-  else:
-    page_faults = page_faults + 1
+    For current_index = 0 to length(reference_string) - 1
 
-    if frames not full:
-      add current_page to frames
+        current_page = reference_string[current_index]
 
-    else:
+        found = false
 
-      for each page in frames:
-        
-        find next use of page after position 1
+        For i = 0 to frame_max - 1
 
-        if page is never used again:
-          choose page whose next use is farthest in future
+            If frames[i] == current_page
+                found = true
+                break
 
-        remove victim from frames
-        add current_page to frames
+        If found == false
+
+            page_faults = page_faults + 1
+
+            empty_index = -1
+
+            For i = 0 to frame_max - 1
+
+                If frames[i] == EMPTY
+                    empty_index = i
+                    break
+
+            If empty_index != -1
+
+                frames[empty_index] = current_page
+
+            Else
+
+                victim_index = -1
+                farthest_use = -1
+
+                For i = 0 to frame_max - 1
+
+                    next_use = INFINITY
+
+                    For j = current_index + 1 to length(reference_string) - 1
+
+                        If reference_string[j] == frames[i]
+
+                            next_use = j
+                            break
+
+                    If next_use == INFINITY
+
+                        victim_index = i
+                        break
+
+                    If next_use > farthest_use
+
+                        farthest_use = next_use
+                        victim_index = i
+
+                frames[victim_index] = current_page
+
+    Return page_faults

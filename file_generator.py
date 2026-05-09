@@ -10,6 +10,7 @@ def generate():
       string = ''.join(random.choices('0123456789', k=30))
       f.write(f"{string}\n")
 
-generate()
+if __name__ == "__main__":
+  generate()
 
 
